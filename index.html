@@ -97,8 +97,7 @@
   {
     "mainGraph": {
       "nodes": [
-        { "id": "Carnegie Mellon University", "type": "education", "group": "education" },
-        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
+        { "id": "Education", "type": "education", "group": "education" },
         { "id": "Introduction to Computer Security", "type": "skill", "group": "skill" },
         { "id": "Network Security", "type": "skill", "group": "skill" },
         { "id": "Binary Analysis", "type": "skill", "group": "skill" },
@@ -126,31 +125,31 @@
         { "id": "MUN Representative Certificate", "type": "extracurricular", "group": "extracurricular" }
       ],
       "links": [
-        { "source": "Carnegie Mellon University", "target": "Product Security Intern @ Yahoo" },
-        { "source": "Carnegie Mellon University", "target": "Security Research Intern @ Uptycs" },
-        { "source": "Carnegie Mellon University", "target": "Introduction to Computer Security" },
-        { "source": "Carnegie Mellon University", "target": "Network Security" },
-        { "source": "Carnegie Mellon University", "target": "Binary Analysis" },
-        { "source": "Carnegie Mellon University", "target": "Penetration Testing" },
-        { "source": "Carnegie Mellon University", "target": "Incident Response & Digital Forensics" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Software Development Intern @ Deloigner" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Research Intern @ Mobile DFIR Lab" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Resilient Self-Auth for BC IoT" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Honeynet as a Service" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Stegnoflage" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "INDIE DFIR" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "BforSEC Certified Security Analyst" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "MUN Representative Certificate" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Data Structures and Algorithms" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Operating Systems" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Database Management Systems" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Computer Networks" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Microprocessors" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Theory of Computation" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "DJS Robocon" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "DJS Karting" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "GDSC Cybersecurity Team" },
-        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "GDSC IoT/AR/VR" }
+        { "source": "Education", "target": "Product Security Intern @ Yahoo" },
+        { "source": "Education", "target": "Security Research Intern @ Uptycs" },
+        { "source": "Education", "target": "Introduction to Computer Security" },
+        { "source": "Education", "target": "Network Security" },
+        { "source": "Education", "target": "Binary Analysis" },
+        { "source": "Education", "target": "Penetration Testing" },
+        { "source": "Education", "target": "Incident Response & Digital Forensics" },
+        { "source": "Education", "target": "Software Development Intern @ Deloigner" },
+        { "source": "Education", "target": "Research Intern @ Mobile DFIR Lab" },
+        { "source": "Education", "target": "Resilient Self-Auth for BC IoT" },
+        { "source": "Education", "target": "Honeynet as a Service" },
+        { "source": "Education", "target": "Stegnoflage" },
+        { "source": "Education", "target": "INDIE DFIR" },
+        { "source": "Education", "target": "BforSEC Certified Security Analyst" },
+        { "source": "Education", "target": "MUN Representative Certificate" },
+        { "source": "Education", "target": "Data Structures and Algorithms" },
+        { "source": "Education", "target": "Operating Systems" },
+        { "source": "Education", "target": "Database Management Systems" },
+        { "source": "Education", "target": "Computer Networks" },
+        { "source": "Education", "target": "Microprocessors" },
+        { "source": "Education", "target": "Theory of Computation" },
+        { "source": "Education", "target": "DJS Robocon" },
+        { "source": "Education", "target": "DJS Karting" },
+        { "source": "Education", "target": "GDSC Cybersecurity Team" },
+        { "source": "Education", "target": "GDSC IoT/AR/VR" }
       ]
     },
     "projectArchitectures": {
@@ -158,6 +157,37 @@
       "Honeynet as a Service": { "name": "Honeynet as a Service", "children": [] },
       "Stegnoflage": { "name": "Stegnoflage", "children": [] },
       "INDIE DFIR": { "name": "INDIE DFIR", "children": [] }
+    },
+    "nodeOverlays": {
+      "Education": {
+        "nodes": [
+          { "id": "Carnegie Mellon University", "group": "education" },
+          { "id": "Dwarkadas J. Sanghvi College of Engineering", "group": "education" }
+        ]
+      },
+      "Carnegie Mellon University": {
+        "nodes": [
+          { "id": "Introduction to Computer Security", "group": "skill" },
+          { "id": "Network Security", "group": "skill" },
+          { "id": "Binary Analysis", "group": "skill" },
+          { "id": "Penetration Testing", "group": "skill" },
+          { "id": "Incident Response & Digital Forensics", "group": "skill" }
+        ]
+      },
+      "Dwarkadas J. Sanghvi College of Engineering": {
+        "nodes": [
+          { "id": "Data Structures and Algorithms", "group": "skill" },
+          { "id": "Operating Systems", "group": "skill" },
+          { "id": "Database Management Systems", "group": "skill" },
+          { "id": "Computer Networks", "group": "skill" },
+          { "id": "Microprocessors", "group": "skill" },
+          { "id": "Theory of Computation", "group": "skill" },
+          { "id": "DJS Robocon", "group": "extracurricular" },
+          { "id": "DJS Karting", "group": "extracurricular" },
+          { "id": "GDSC Cybersecurity Team", "group": "extracurricular" },
+          { "id": "GDSC IoT/AR/VR", "group": "extracurricular" }
+        ]
+      }
     }
   }
   </script>
@@ -202,8 +232,22 @@
       .attr('fill', d => color(d.group))
       .attr('stroke', d => d.type === 'project' ? '#94A3B8' : 'none')
       .attr('stroke-width', d => d.type === 'project' ? 2 : 0)
-      .on('click', (_, d) => { if (d.type === 'project') openLLD(d.id); })
-      .on('keydown', (event, d) => { if ((event.key === 'Enter' || event.key === ' ') && d.type === 'project') openLLD(d.id); });
+      .on('click', (_, d) => {
+        if (data.nodeOverlays && data.nodeOverlays[d.id]) {
+          renderSubgraph(d.id);
+        } else if (d.type === 'project') {
+          openLLD(d.id);
+        }
+      })
+      .on('keydown', (event, d) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          if (data.nodeOverlays && data.nodeOverlays[d.id]) {
+            renderSubgraph(d.id);
+          } else if (d.type === 'project') {
+            openLLD(d.id);
+          }
+        }
+      });
 
     node.append('text').text(d => d.id).attr('dy', d => d.type === 'project' ? -22 : -14);
 
@@ -266,10 +310,13 @@
     // LLD rendering
     const lldSvg = d3.select('#lld-svg');
     const overlay = document.getElementById('lld-overlay');
+    const overlayStack = [];
 
-    function renderLLD(projectName) {
+    function renderLLD(projectName, skipPush) {
       const arch = data.projectArchitectures[projectName];
       if (!arch) return;
+
+      if (!skipPush) overlayStack.push(projectName);
 
       document.getElementById('lld-title').textContent = `Architecture: ${projectName}`;
       lldSvg.selectAll('*').remove();
@@ -314,14 +361,83 @@
       overlay.classList.remove('hidden'); requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
     }
 
+    function renderSubgraph(nodeName, skipPush) {
+      const sub = data.nodeOverlays[nodeName];
+      if (!sub) return;
+
+      if (!skipPush) overlayStack.push(nodeName);
+
+      document.getElementById('lld-title').textContent = nodeName;
+      lldSvg.selectAll('*').remove();
+
+      const w = innerWidth, h = innerHeight;
+      lldSvg.attr('width', w).attr('height', h)
+        .attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
+
+      const nodes = [{ id: nodeName, group: 'education' }, ...(sub.nodes || [])];
+      const links = (sub.links && sub.links.length)
+        ? sub.links.map(l => ({ source: l.source, target: l.target }))
+        : (sub.nodes || []).map(n => ({ source: nodeName, target: n.id }));
+
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(80))
+        .force('charge', d3.forceManyBody().strength(-200))
+        .force('center', d3.forceCenter(w/2, h/2));
+
+      const link = lldSvg.append('g').selectAll('line').data(links).join('line')
+        .attr('class', 'link').attr('stroke', '#94A3B8').attr('stroke-width', 1.5);
+
+      const node = lldSvg.append('g').selectAll('g').data(nodes).join('g')
+        .attr('class', 'node')
+        .call(d3.drag()
+          .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+          .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+          .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+        );
+
+      node.append('circle').attr('r', 8)
+        .attr('fill', d => color(d.group || 'education'))
+        .attr('stroke', '#94A3B8').attr('stroke-width', 1.2);
+
+      node.append('text').text(d => d.id)
+        .attr('dy', '0.32em').attr('x', 12)
+        .attr('font-size', 12).attr('fill', '#374151');
+
+      node.on('click', (_, d) => {
+        if (data.nodeOverlays && data.nodeOverlays[d.id]) renderSubgraph(d.id);
+      });
+
+      simulation.on('tick', () => {
+        link.attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+
+      overlay.classList.remove('hidden'); requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+    }
+
     function closeLLD() {
+      overlayStack.length = 0;
       overlay.classList.add('opacity-0');
       setTimeout(() => overlay.classList.add('hidden'), 180);
     }
 
     document.getElementById('back').addEventListener('click', () => {
-      history.pushState('', document.title, window.location.pathname + window.location.search);
-      readRoute();
+      overlayStack.pop();
+      if (overlayStack.length > 0) {
+        const prev = overlayStack[overlayStack.length - 1];
+        if (data.nodeOverlays && data.nodeOverlays[prev]) {
+          renderSubgraph(prev, true);
+        } else {
+          history.pushState('', document.title, window.location.pathname + window.location.search);
+          renderLLD(prev, true);
+        }
+      } else {
+        history.pushState('', document.title, window.location.pathname + window.location.search);
+        closeLLD();
+      }
     });
 
     // Export SVG of LLD
