@@ -1,5 +1,4 @@
-# Write the final HTML to a downloadable file named index.html
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -261,8 +260,8 @@ html = """<!DOCTYPE html>
       const rootG = lldSvg.append('g');
       const baseG = rootG.append('g').attr('transform', 'translate(180,60)');
 
-      // Links – use linkHorizontal with curve
-      const linkGen = d3.linkHorizontal().x(d => d.y).y(d => d.x).curve(d3.curveBumpX);
+      // Links – use a horizontal link generator
+      const linkGen = d3.linkHorizontal().x(d => d.y).y(d => d.x);
       baseG.selectAll('.link').data(root.links()).join('path')
         .attr('class', 'link').attr('fill','none').attr('stroke', '#4B5563').attr('stroke-width', 1.5)
         .attr('d', linkGen);
@@ -315,7 +314,3 @@ html = """<!DOCTYPE html>
   </script>
 </body>
 </html>
-"""
-with open("/mnt/data/index.html", "w", encoding="utf-8") as f:
-    f.write(html)
-"/mnt/data/index.html"
