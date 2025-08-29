@@ -98,58 +98,12 @@
     "mainGraph": {
       "nodes": [
         { "id": "Education", "type": "education", "group": "education" },
-        { "id": "Introduction to Computer Security", "type": "skill", "group": "skill" },
-        { "id": "Network Security", "type": "skill", "group": "skill" },
-        { "id": "Binary Analysis", "type": "skill", "group": "skill" },
-        { "id": "Penetration Testing", "type": "skill", "group": "skill" },
-        { "id": "Incident Response & Digital Forensics", "type": "skill", "group": "skill" },
-        { "id": "Data Structures and Algorithms", "type": "skill", "group": "skill" },
-        { "id": "Operating Systems", "type": "skill", "group": "skill" },
-        { "id": "Database Management Systems", "type": "skill", "group": "skill" },
-        { "id": "Computer Networks", "type": "skill", "group": "skill" },
-        { "id": "Microprocessors", "type": "skill", "group": "skill" },
-        { "id": "Theory of Computation", "type": "skill", "group": "skill" },
-        { "id": "DJS Robocon", "type": "extracurricular", "group": "extracurricular" },
-        { "id": "DJS Karting", "type": "extracurricular", "group": "extracurricular" },
-        { "id": "GDSC Cybersecurity Team", "type": "extracurricular", "group": "extracurricular" },
-        { "id": "GDSC IoT/AR/VR", "type": "extracurricular", "group": "extracurricular" },
-        { "id": "Product Security Intern @ Yahoo", "type": "experience", "group": "experience" },
-        { "id": "Security Research Intern @ Uptycs", "type": "experience", "group": "experience" },
-        { "id": "Software Development Intern @ Deloigner", "type": "experience", "group": "experience" },
-        { "id": "Research Intern @ Mobile DFIR Lab", "type": "experience", "group": "experience" },
-        { "id": "Resilient Self-Auth for BC IoT", "type": "project", "group": "project" },
-        { "id": "Honeynet as a Service", "type": "project", "group": "project" },
-        { "id": "Stegnoflage", "type": "project", "group": "project" },
-        { "id": "INDIE DFIR", "type": "project", "group": "project" },
-        { "id": "BforSEC Certified Security Analyst", "type": "extracurricular", "group": "extracurricular" },
-        { "id": "MUN Representative Certificate", "type": "extracurricular", "group": "extracurricular" }
+        { "id": "Carnegie Mellon University", "type": "education", "group": "education" },
+        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
       ],
       "links": [
-        { "source": "Education", "target": "Product Security Intern @ Yahoo" },
-        { "source": "Education", "target": "Security Research Intern @ Uptycs" },
-        { "source": "Education", "target": "Introduction to Computer Security" },
-        { "source": "Education", "target": "Network Security" },
-        { "source": "Education", "target": "Binary Analysis" },
-        { "source": "Education", "target": "Penetration Testing" },
-        { "source": "Education", "target": "Incident Response & Digital Forensics" },
-        { "source": "Education", "target": "Software Development Intern @ Deloigner" },
-        { "source": "Education", "target": "Research Intern @ Mobile DFIR Lab" },
-        { "source": "Education", "target": "Resilient Self-Auth for BC IoT" },
-        { "source": "Education", "target": "Honeynet as a Service" },
-        { "source": "Education", "target": "Stegnoflage" },
-        { "source": "Education", "target": "INDIE DFIR" },
-        { "source": "Education", "target": "BforSEC Certified Security Analyst" },
-        { "source": "Education", "target": "MUN Representative Certificate" },
-        { "source": "Education", "target": "Data Structures and Algorithms" },
-        { "source": "Education", "target": "Operating Systems" },
-        { "source": "Education", "target": "Database Management Systems" },
-        { "source": "Education", "target": "Computer Networks" },
-        { "source": "Education", "target": "Microprocessors" },
-        { "source": "Education", "target": "Theory of Computation" },
-        { "source": "Education", "target": "DJS Robocon" },
-        { "source": "Education", "target": "DJS Karting" },
-        { "source": "Education", "target": "GDSC Cybersecurity Team" },
-        { "source": "Education", "target": "GDSC IoT/AR/VR" }
+        { "source": "Education", "target": "Carnegie Mellon University" },
+        { "source": "Education", "target": "Dwarkadas J. Sanghvi College of Engineering" },
       ]
     },
     "projectArchitectures": {
@@ -167,6 +121,31 @@
       },
       "Carnegie Mellon University": {
         "nodes": [
+          { "id": "Coursework", "group": "education" }
+          // Optionally add extracurriculars here if you want them to show under CMU
+        ],
+        "links": [
+          // Optionally, you could link "Coursework" to other sub-nodes if needed
+        ]
+      },
+      "Dwarkadas J. Sanghvi College of Engineering": {
+        "nodes": [
+          { "id": "Coursework", "group": "education" },
+          { "id": "DJS Robocon", "group": "extracurricular" },
+          { "id": "DJS Karting", "group": "extracurricular" },
+          { "id": "GDSC Cybersecurity Team", "group": "extracurricular" },
+          { "id": "GDSC IoT/AR/VR", "group": "extracurricular" }
+        ],
+        "links": [
+          { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Coursework" },
+          { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "DJS Robocon" },
+          { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "DJS Karting" },
+          { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "GDSC Cybersecurity Team" },
+          { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "GDSC IoT/AR/VR" }
+        ]
+      },
+      "Coursework@Carnegie Mellon University": {
+        "nodes": [
           { "id": "Introduction to Computer Security", "group": "skill" },
           { "id": "Network Security", "group": "skill" },
           { "id": "Binary Analysis", "group": "skill" },
@@ -174,18 +153,14 @@
           { "id": "Incident Response & Digital Forensics", "group": "skill" }
         ]
       },
-      "Dwarkadas J. Sanghvi College of Engineering": {
+      "Coursework@Dwarkadas J. Sanghvi College of Engineering": {
         "nodes": [
           { "id": "Data Structures and Algorithms", "group": "skill" },
           { "id": "Operating Systems", "group": "skill" },
           { "id": "Database Management Systems", "group": "skill" },
           { "id": "Computer Networks", "group": "skill" },
           { "id": "Microprocessors", "group": "skill" },
-          { "id": "Theory of Computation", "group": "skill" },
-          { "id": "DJS Robocon", "group": "extracurricular" },
-          { "id": "DJS Karting", "group": "extracurricular" },
-          { "id": "GDSC Cybersecurity Team", "group": "extracurricular" },
-          { "id": "GDSC IoT/AR/VR", "group": "extracurricular" }
+          { "id": "Theory of Computation", "group": "skill" }
         ]
       }
     }
