@@ -33,7 +33,15 @@
     .node text { font-size: 12px; font-weight: 300; pointer-events: none; text-anchor: middle; fill: #374151; }
     .link { stroke-opacity: .24; stroke-width: 1px; }
     #main-graph, #lld-svg { width: 100vw; height: 100vh; position: absolute; inset: 0; }
-    #lld-overlay { transition: opacity .25s ease; background: rgba(248,250,252,.85); backdrop-filter: blur(6px); }
+    #lld-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 20;
+      transition: opacity .25s ease;
+      background: #f8fafc;
+    }
     @media (prefers-reduced-motion: reduce) { .node circle { transition:none } #lld-overlay { transition: none } }
   </style>
 </head>
