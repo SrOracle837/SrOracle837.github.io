@@ -1,0 +1,321 @@
+# Write the final HTML to a downloadable file named index.html
+html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interactive Portfolio</title>
+  <meta name="description" content="Graph-based portfolio with force layout navigation and architectural drill-downs." />
+  <meta name="theme-color" content="#111827" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.tailwindcss.com https://d3js.org; img-src 'self' data:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src https://cdn.tailwindcss.com https://d3js.org 'unsafe-inline'" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui"] } } },
+      darkMode: "media",
+    };
+  </script>
+
+  <!-- D3.js -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    html, body { height: 100%; }
+    body { background:#111827; color:#e5e7eb; overflow:hidden; font-weight:400; }
+    .node circle { cursor:pointer; transition: transform .15s ease; }
+    .node:focus-visible circle { outline: 2px solid #93C5FD; outline-offset: 2px; }
+    .node circle:hover { transform: scale(1.12); }
+    .node text { font-size: 12px; font-weight: 300; pointer-events: none; text-anchor: middle; fill: #e5e7eb; }
+    .link { stroke-opacity: .24; stroke-width: 1px; }
+    #main-graph, #lld-svg { width: 100vw; height: 100vh; position: absolute; inset: 0; }
+    #lld-overlay { transition: opacity .25s ease; background: rgba(17,24,39,.85); backdrop-filter: blur(6px); }
+    @media (prefers-reduced-motion: reduce) { .node circle { transition:none } #lld-overlay { transition: none } }
+  </style>
+</head>
+<body class="font-sans">
+
+  <!-- Main Graph View -->
+  <section id="main-view" class="relative" aria-labelledby="site-title">
+    <header class="absolute top-0 left-0 p-6 md:p-8 z-10 max-w-xl">
+      <h1 id="site-title" class="text-2xl md:text-3xl font-medium">My Portfolio</h1>
+      <p class="text-gray-400 mt-2 font-light">Hover to explore connections; click a project to open its architecture. Use Tab/Enter for keyboard. Press <kbd>/</kbd> to search.</p>
+    </header>
+
+    <div class="absolute top-4 right-4 z-10 flex items-center gap-2">
+      <input id="search" placeholder="Search…" class="px-3 py-2 rounded-lg bg-gray-800/70 text-sm placeholder-gray-500 focus:outline-none focus:ring focus:ring-blue-400/40" aria-label="Search nodes" />
+      <button id="reset" class="px-3 py-2 rounded-lg bg-gray-800/70 text-sm hover:bg-gray-700">Reset</button>
+    </div>
+
+    <figure aria-label="Portfolio knowledge graph">
+      <svg id="main-graph" role="img" aria-describedby="graph-desc">
+        <title>Interactive portfolio graph</title>
+        <desc id="graph-desc">Projects, skills, and experience nodes connected by relationships.</desc>
+      </svg>
+    </figure>
+
+    <!-- Legend -->
+    <div class="absolute bottom-4 left-4 z-10 flex items-center gap-3 text-xs">
+      <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-gray-100"></span> Project</span>
+      <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span> Experience</span>
+      <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-gray-500"></span> Skill</span>
+    </div>
+  </section>
+
+  <!-- LLD View -->
+  <section id="lld-overlay" class="hidden opacity-0" aria-live="polite">
+    <div class="absolute top-0 left-0 p-6 md:p-8 z-20 space-y-2">
+      <div class="flex items-center gap-2">
+        <button id="back" class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]" aria-label="Back to main graph">← Back</button>
+        <button id="download-svg" class="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg shadow-lg" aria-label="Download architecture as SVG">Download SVG</button>
+      </div>
+      <h2 id="lld-title" class="text-2xl md:text-3xl font-medium"></h2>
+      <p class="text-gray-400 font-light">Pan and zoom to explore. Scroll to zoom; drag empty space to pan.</p>
+    </div>
+    <svg id="lld-svg" role="img">
+      <title>Project architecture tree</title>
+    </svg>
+  </section>
+
+  <!-- Data (can be swapped for external JSON later) -->
+  <script type="application/json" id="portfolio-data">
+  {
+    "mainGraph": {
+      "nodes": [
+        { "id": "React", "type": "skill", "group": "skill" },
+        { "id": "Node.js", "type": "skill", "group": "skill" },
+        { "id": "D3.js", "type": "skill", "group": "skill" },
+        { "id": "PostgreSQL", "type": "skill", "group": "skill" },
+        { "id": "AWS", "type": "skill", "group": "skill" },
+        { "id": "Docker", "type": "skill", "group": "skill" },
+        { "id": "Project Alpha", "type": "project", "group": "project" },
+        { "id": "Project Beta", "type": "project", "group": "project" },
+        { "id": "Portfolio", "type": "project", "group": "project" },
+        { "id": "Software Engineer @ BigTech", "type": "experience", "group": "experience" },
+        { "id": "Intern @ CoolStartup", "type": "experience", "group": "experience" }
+      ],
+      "links": [
+        { "source": "Project Alpha", "target": "React" },
+        { "source": "Project Alpha", "target": "Node.js" },
+        { "source": "Project Alpha", "target": "PostgreSQL" },
+        { "source": "Software Engineer @ BigTech", "target": "Project Alpha" },
+        { "source": "Software Engineer @ BigTech", "target": "AWS" },
+        { "source": "Project Beta", "target": "Docker" },
+        { "source": "Project Beta", "target": "Node.js" },
+        { "source": "Intern @ CoolStartup", "target": "Project Beta" },
+        { "source": "Portfolio", "target": "D3.js" }
+      ]
+    },
+    "projectArchitectures": {
+      "Project Alpha": { "name": "Root", "children": [
+        { "name": "Client (React SPA)", "children": [
+          { "name": "Auth Module" }, { "name": "Dashboard Component" }, { "name": "API Service Layer" }
+        ]},
+        { "name": "API Gateway (AWS)", "children": [ { "name": "Rate Limiting" }, { "name": "Authentication Endpoint" } ]},
+        { "name": "Backend (Node.js Microservices)", "children": [
+          { "name": "User Service", "children": [ { "name": "JWT Logic" } ] },
+          { "name": "Order Service", "children": [ { "name": "Payment Integration" } ] },
+          { "name": "Product Service" }
+        ]},
+        { "name": "Database (PostgreSQL)", "children": [ { "name": "Users Table" }, { "name": "Products Table" } ] }
+      ]},
+      "Project Beta": { "name": "Root", "children": [
+        { "name": "Data Ingestion Pipeline (Docker)" },
+        { "name": "Processing Service (Node.js)" },
+        { "name": "Data Warehouse" }
+      ]},
+      "Portfolio": { "name": "Root", "children": [
+        { "name": "HTML File" },
+        { "name": "JavaScript (D3.js)", "children": [ { "name": "Main Graph Renderer" }, { "name": "LLD Graph Renderer" } ] },
+        { "name": "portfolio-data.json" }
+      ]}
+    }
+  }
+  </script>
+
+  <script>
+  // Utilities
+  const $ = (sel) => document.querySelector(sel);
+  const getId = (d) => typeof d === 'object' ? d.id : d;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const data = JSON.parse(document.getElementById('portfolio-data').textContent);
+
+    const width = innerWidth, height = innerHeight;
+    const svg = d3.select('#main-graph').attr('width', width).attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
+
+    const color = d3.scaleOrdinal().domain(['project','experience','skill']).range(['#F3F4F6','#3B82F6','#6B7280']);
+
+    // Forces
+    const simulation = d3.forceSimulation(data.mainGraph.nodes)
+      .force('link', d3.forceLink(data.mainGraph.links).id(d => d.id).distance(120))
+      .force('charge', d3.forceManyBody().strength(-380))
+      .force('center', d3.forceCenter(width/2, height/2))
+      .force('collision', d3.forceCollide().radius(d => d.type === 'project' ? 28 : 18));
+
+    // Links
+    const link = svg.append('g').attr('stroke', '#374151').selectAll('line')
+      .data(data.mainGraph.links).join('line').attr('class','link');
+
+    // Nodes
+    const node = svg.append('g').selectAll('g')
+      .data(data.mainGraph.nodes).join('g')
+      .attr('class','node')
+      .attr('tabindex', 0)
+      .attr('role','button')
+      .attr('aria-label', d => `${d.type}: ${d.id}`);
+
+    node.append('title').text(d => d.id);
+
+    node.append('circle')
+      .attr('r', d => d.type === 'project' ? 16 : 10)
+      .attr('fill', d => color(d.group))
+      .attr('stroke', d => d.type === 'project' ? '#4B5563' : 'none')
+      .attr('stroke-width', d => d.type === 'project' ? 2 : 0)
+      .on('click', (_, d) => { if (d.type === 'project') openLLD(d.id); })
+      .on('keydown', (event, d) => { if ((event.key === 'Enter' || event.key === ' ') && d.type === 'project') openLLD(d.id); });
+
+    node.append('text').text(d => d.id).attr('dy', d => d.type === 'project' ? -22 : -14);
+
+    node.call(d3.drag()
+      .on('start', (event, d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+      .on('end', (event, d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    );
+
+    // Build quick lookup for hover highlighting — robust for strings/objects
+    const linked = {};
+    data.mainGraph.links.forEach(l => { linked[`${getId(l.source)},${getId(l.target)}`] = 1; });
+    const isConnected = (a, b) => linked[`${a.id},${b.id}`] || linked[`${b.id},${a.id}`] || a.id === b.id;
+
+    node.on('mouseover', (_, d) => {
+      node.style('opacity', o => isConnected(d, o) ? 1 : 0.25);
+      link.style('stroke-opacity', o => (getId(o.source) === d.id || getId(o.target) === d.id) ? 0.6 : 0.08);
+    }).on('mouseout', () => {
+      node.style('opacity', 1); link.style('stroke-opacity', 0.24);
+    });
+
+    simulation.on('tick', () => {
+      link.attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    // Resize handler keeps layout responsive
+    addEventListener('resize', () => {
+      const w = innerWidth, h = innerHeight;
+      svg.attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+      simulation.force('center', d3.forceCenter(w/2, h/2)).alpha(0.3).restart();
+    });
+
+    // Simple search/filter
+    const search = $('#search'), reset = $('#reset');
+    const applyFilter = (q) => {
+      const query = (q || '').trim().toLowerCase();
+      if (!query) { node.style('display', null); link.style('display', null); return; }
+      node.style('display', d => d.id.toLowerCase().includes(query) ? null : 'none');
+      const visible = new Set();
+      data.mainGraph.nodes.forEach(n => { if (n.id.toLowerCase().includes(query)) visible.add(n.id); });
+      link.style('display', l => visible.has(getId(l.source)) || visible.has(getId(l.target)) ? null : 'none');
+    };
+    search.addEventListener('input', e => applyFilter(e.target.value));
+    document.addEventListener('keydown', e => { if (e.key === '/') { e.preventDefault(); search.focus(); } });
+    reset.addEventListener('click', () => { search.value = ''; applyFilter(''); });
+
+    // Deep link routing via hash: #project=Project%20Alpha
+    function openLLD(name) { location.hash = `project=${encodeURIComponent(name)}`; }
+    function readRoute() {
+      const m = location.hash.match(/project=([^&]+)/);
+      if (m) renderLLD(decodeURIComponent(m[1]));
+      else closeLLD();
+    }
+    addEventListener('hashchange', readRoute);
+
+    // LLD rendering
+    const lldSvg = d3.select('#lld-svg');
+    const overlay = document.getElementById('lld-overlay');
+
+    function renderLLD(projectName) {
+      const arch = data.projectArchitectures[projectName];
+      if (!arch) return;
+
+      document.getElementById('lld-title').textContent = `Architecture: ${projectName}`;
+      lldSvg.selectAll('*').remove();
+
+      const w = innerWidth, h = innerHeight; lldSvg.attr('width', w).attr('height', h)
+        .attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
+
+      const root = d3.hierarchy(arch);
+      const tree = d3.tree().nodeSize([28, 180]);
+      tree(root);
+
+      // Container for pan/zoom
+      const rootG = lldSvg.append('g');
+      const baseG = rootG.append('g').attr('transform', 'translate(180,60)');
+
+      // Links – use linkHorizontal with curve
+      const linkGen = d3.linkHorizontal().x(d => d.y).y(d => d.x).curve(d3.curveBumpX);
+      baseG.selectAll('.link').data(root.links()).join('path')
+        .attr('class', 'link').attr('fill','none').attr('stroke', '#4B5563').attr('stroke-width', 1.5)
+        .attr('d', linkGen);
+
+      // Nodes
+      const nodes = baseG.selectAll('.node').data(root.descendants()).join('g')
+        .attr('class', 'node').attr('transform', d => `translate(${d.y},${d.x})`);
+
+      nodes.append('circle').attr('r', d => d.children ? 7.5 : 5)
+        .attr('fill', d => d.children ? '#3B82F6' : '#D1D5DB')
+        .attr('stroke', '#9CA3AF').attr('stroke-width', 1.2);
+
+      nodes.append('text').text(d => d.data.name)
+        .attr('dy', '0.32em').attr('x', d => d.children ? -14 : 14)
+        .attr('text-anchor', d => d.children ? 'end' : 'start')
+        .attr('fill', '#D1D5DB').attr('font-size', 14).attr('font-weight', 400);
+
+      // Zoom + pan (preserve the base translate)
+      const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', (ev) => {
+        const t = ev.transform; rootG.attr('transform', `translate(${t.x},${t.y}) scale(${t.k})`);
+      });
+      lldSvg.call(zoom).call(zoom.transform, d3.zoomIdentity.translate(0,0).scale(1));
+
+      // Show overlay
+      overlay.classList.remove('hidden'); requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+    }
+
+    function closeLLD() {
+      overlay.classList.add('opacity-0');
+      setTimeout(() => overlay.classList.add('hidden'), 180);
+    }
+
+    document.getElementById('back').addEventListener('click', () => {
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+      readRoute();
+    });
+
+    // Export SVG of LLD
+    document.getElementById('download-svg').addEventListener('click', () => {
+      const svgEl = document.getElementById('lld-svg');
+      const blob = new Blob([new XMLSerializer().serializeToString(svgEl)], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = (document.getElementById('lld-title').textContent || 'architecture') + '.svg'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Initial route (supports direct links)
+    readRoute();
+  });
+  </script>
+</body>
+</html>
+"""
+with open("/mnt/data/index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+"/mnt/data/index.html"
