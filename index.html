@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Portfolio</title>
+  <title>Ayush Shah Portfolio</title>
   <meta name="description" content="Graph-based portfolio with force layout navigation and architectural drill-downs." />
   <meta name="theme-color" content="#f8fafc" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.tailwindcss.com https://d3js.org; img-src 'self' data:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src https://cdn.tailwindcss.com https://d3js.org 'unsafe-inline'" />
@@ -43,7 +43,7 @@
   <section id="main-view" class="relative" aria-labelledby="site-title">
     <header class="absolute inset-x-0 top-0 p-6 md:p-8 z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
       <div class="max-w-xl">
-        <h1 id="site-title" class="text-2xl md:text-3xl font-medium">My Portfolio</h1>
+        <h1 id="site-title" class="text-2xl md:text-3xl font-medium">Ayush Shah</h1>
         <p class="text-gray-600 mt-2 font-light">Hover to explore connections; click a project to open its architecture. Use Tab/Enter for keyboard. Press <kbd>/</kbd> to search.</p>
       </div>
       <div class="flex items-center gap-2">
@@ -55,7 +55,7 @@
     <figure aria-label="Portfolio knowledge graph">
       <svg id="main-graph" role="img" aria-describedby="graph-desc">
         <title>Interactive portfolio graph</title>
-        <desc id="graph-desc">Projects, skills, and experience nodes connected by relationships.</desc>
+        <desc id="graph-desc">Projects, experience, education, and extracurricular nodes connected by relationships.</desc>
       </svg>
     </figure>
 
@@ -64,6 +64,8 @@
       <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-sky-200"></span> Project</span>
       <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-pink-200"></span> Experience</span>
       <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-emerald-200"></span> Skill</span>
+      <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-yellow-200"></span> Education</span>
+      <span class="inline-flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-purple-200"></span> Extracurricular</span>
     </div>
   </section>
 
@@ -87,53 +89,37 @@
   {
     "mainGraph": {
       "nodes": [
-        { "id": "React", "type": "skill", "group": "skill" },
-        { "id": "Node.js", "type": "skill", "group": "skill" },
-        { "id": "D3.js", "type": "skill", "group": "skill" },
-        { "id": "PostgreSQL", "type": "skill", "group": "skill" },
-        { "id": "AWS", "type": "skill", "group": "skill" },
-        { "id": "Docker", "type": "skill", "group": "skill" },
-        { "id": "Project Alpha", "type": "project", "group": "project" },
-        { "id": "Project Beta", "type": "project", "group": "project" },
-        { "id": "Portfolio", "type": "project", "group": "project" },
-        { "id": "Software Engineer @ BigTech", "type": "experience", "group": "experience" },
-        { "id": "Intern @ CoolStartup", "type": "experience", "group": "experience" }
+        { "id": "Carnegie Mellon University", "type": "education", "group": "education" },
+        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
+        { "id": "Product Security Intern @ Yahoo", "type": "experience", "group": "experience" },
+        { "id": "Security Research Intern @ Uptycs", "type": "experience", "group": "experience" },
+        { "id": "Software Development Intern @ Deloigner", "type": "experience", "group": "experience" },
+        { "id": "Research Intern @ Mobile DFIR Lab", "type": "experience", "group": "experience" },
+        { "id": "Resilient Self-Auth for BC IoT", "type": "project", "group": "project" },
+        { "id": "Honeynet as a Service", "type": "project", "group": "project" },
+        { "id": "Stegnoflage", "type": "project", "group": "project" },
+        { "id": "INDIE DFIR", "type": "project", "group": "project" },
+        { "id": "BforSEC Certified Security Analyst", "type": "extracurricular", "group": "extracurricular" },
+        { "id": "MUN Representative Certificate", "type": "extracurricular", "group": "extracurricular" }
       ],
       "links": [
-        { "source": "Project Alpha", "target": "React" },
-        { "source": "Project Alpha", "target": "Node.js" },
-        { "source": "Project Alpha", "target": "PostgreSQL" },
-        { "source": "Software Engineer @ BigTech", "target": "Project Alpha" },
-        { "source": "Software Engineer @ BigTech", "target": "AWS" },
-        { "source": "Project Beta", "target": "Docker" },
-        { "source": "Project Beta", "target": "Node.js" },
-        { "source": "Intern @ CoolStartup", "target": "Project Beta" },
-        { "source": "Portfolio", "target": "D3.js" }
+        { "source": "Carnegie Mellon University", "target": "Product Security Intern @ Yahoo" },
+        { "source": "Carnegie Mellon University", "target": "Security Research Intern @ Uptycs" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Software Development Intern @ Deloigner" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Research Intern @ Mobile DFIR Lab" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Resilient Self-Auth for BC IoT" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Honeynet as a Service" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "Stegnoflage" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "INDIE DFIR" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "BforSEC Certified Security Analyst" },
+        { "source": "Dwarkadas J. Sanghvi College of Engineering", "target": "MUN Representative Certificate" }
       ]
     },
     "projectArchitectures": {
-      "Project Alpha": { "name": "Root", "children": [
-        { "name": "Client (React SPA)", "children": [
-          { "name": "Auth Module" }, { "name": "Dashboard Component" }, { "name": "API Service Layer" }
-        ]},
-        { "name": "API Gateway (AWS)", "children": [ { "name": "Rate Limiting" }, { "name": "Authentication Endpoint" } ]},
-        { "name": "Backend (Node.js Microservices)", "children": [
-          { "name": "User Service", "children": [ { "name": "JWT Logic" } ] },
-          { "name": "Order Service", "children": [ { "name": "Payment Integration" } ] },
-          { "name": "Product Service" }
-        ]},
-        { "name": "Database (PostgreSQL)", "children": [ { "name": "Users Table" }, { "name": "Products Table" } ] }
-      ]},
-      "Project Beta": { "name": "Root", "children": [
-        { "name": "Data Ingestion Pipeline (Docker)" },
-        { "name": "Processing Service (Node.js)" },
-        { "name": "Data Warehouse" }
-      ]},
-      "Portfolio": { "name": "Root", "children": [
-        { "name": "HTML File" },
-        { "name": "JavaScript (D3.js)", "children": [ { "name": "Main Graph Renderer" }, { "name": "LLD Graph Renderer" } ] },
-        { "name": "portfolio-data.json" }
-      ]}
+      "Resilient Self-Auth for BC IoT": { "name": "Resilient Self-Auth for BC IoT", "children": [] },
+      "Honeynet as a Service": { "name": "Honeynet as a Service", "children": [] },
+      "Stegnoflage": { "name": "Stegnoflage", "children": [] },
+      "INDIE DFIR": { "name": "INDIE DFIR", "children": [] }
     }
   }
   </script>
@@ -150,7 +136,7 @@
     const svg = d3.select('#main-graph').attr('width', width).attr('height', height)
       .attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
-    const color = d3.scaleOrdinal().domain(['project','experience','skill']).range(['#BAE6FD','#FBCFE8','#A7F3D0']);
+    const color = d3.scaleOrdinal().domain(['project','experience','skill','education','extracurricular']).range(['#BAE6FD','#FBCFE8','#A7F3D0','#FEF3C7','#E9D5FF']);
 
     // Forces
     const simulation = d3.forceSimulation(data.mainGraph.nodes)
