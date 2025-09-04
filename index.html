@@ -99,16 +99,21 @@
       "nodes": [
         { "id": "Education", "type": "education", "group": "education" },
         { "id": "Carnegie Mellon University", "type": "education", "group": "education" },
-        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" }
+        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
+        { "id": "Projects", "type": "skill", "group": "project" },
+        { "id": "Distributed Consensus Framework (RPC + RAFT)", "type": "project", "group": "project" },
+        { "id": "Honeynet as a Service", "type": "project", "group": "project" }
       ],
       "links": [
         { "source": "Education", "target": "Carnegie Mellon University" },
-        { "source": "Education", "target": "Dwarkadas J. Sanghvi College of Engineering" }
+        { "source": "Education", "target": "Dwarkadas J. Sanghvi College of Engineering" },
+        { "source": "Projects", "target": "Distributed Consensus Framework (RPC + RAFT)" },
+        { "source": "Projects", "target": "Honeynet as a Service" }
       ]
     },
     "projectArchitectures": {
-      "Resilient Self-Auth for BC IoT": { "name": "Resilient Self-Auth for BC IoT", "children": [] },
-      "Honeynet as a Service": { "name": "Honeynet as a Service", "children": [] },
+      "Distributed Consensus Framework (RPC + RAFT)": { "svg": "/architectures/distributed-consensus.svg" },
+      "Honeynet as a Service": { "svg": "/architectures/honeynet.svg" },
       "Stegnoflage": { "name": "Stegnoflage", "children": [] },
       "INDIE DFIR": { "name": "INDIE DFIR", "children": [] }
     },
@@ -281,7 +286,7 @@
     addEventListener('hashchange', readRoute);
 
     // LLD rendering
-    const lldSvg = d3.select('#lld-svg');
+    let lldSvg = d3.select('#lld-svg');
     const overlay = document.getElementById('lld-overlay');
     const overlayStack = [];
 
@@ -294,7 +299,29 @@
       document.getElementById('lld-title').textContent = `Architecture: ${projectName}`;
       lldSvg.selectAll('*').remove();
 
-      const w = innerWidth, h = innerHeight; lldSvg.attr('width', w).attr('height', h)
+      const w = innerWidth, h = innerHeight;
+
+      if (arch.svg) {
+        const svgPath = arch.svg.startsWith('/') ? arch.svg : `/${arch.svg}`;
+        fetch(svgPath)
+          .then(r => r.text())
+          .then(txt => {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = txt.trim();
+            const svgEl = wrapper.querySelector('svg');
+            svgEl.setAttribute('id', 'lld-svg');
+            svgEl.setAttribute('width', w);
+            svgEl.setAttribute('height', h);
+            lldSvg.node().replaceWith(svgEl);
+            lldSvg = d3.select('#lld-svg');
+            overlay.classList.remove('hidden');
+            requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+          })
+          .catch(err => console.error('Failed to load SVG', err));
+        return;
+      }
+
+      lldSvg.attr('width', w).attr('height', h)
         .attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
       const root = d3.hierarchy(arch);
