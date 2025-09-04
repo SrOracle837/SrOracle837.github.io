@@ -204,15 +204,7 @@
       .attr('class','node')
       .attr('tabindex', 0)
       .attr('role','button')
-      .attr('aria-label', d => `${d.type}: ${d.id}`);
-
-    node.append('title').text(d => d.id);
-
-    node.append('circle')
-      .attr('r', d => d.type === 'project' ? 16 : 10)
-      .attr('fill', d => color(d.group))
-      .attr('stroke', d => d.type === 'project' ? '#94A3B8' : 'none')
-      .attr('stroke-width', d => d.type === 'project' ? 2 : 0)
+      .attr('aria-label', d => `${d.type}: ${d.id}`)
       .on('click', (_, d) => {
         if (data.nodeOverlays && data.nodeOverlays[d.id]) {
           renderSubgraph(d.id);
@@ -229,6 +221,14 @@
           }
         }
       });
+
+    node.append('title').text(d => d.id);
+
+    node.append('circle')
+      .attr('r', d => d.type === 'project' ? 16 : 10)
+      .attr('fill', d => color(d.group))
+      .attr('stroke', d => d.type === 'project' ? '#94A3B8' : 'none')
+      .attr('stroke-width', d => d.type === 'project' ? 2 : 0);
 
     node.append('text').text(d => d.id).attr('dy', d => d.type === 'project' ? -22 : -14);
 
