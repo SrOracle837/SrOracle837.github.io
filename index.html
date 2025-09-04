@@ -99,16 +99,21 @@
       "nodes": [
         { "id": "Education", "type": "education", "group": "education" },
         { "id": "Carnegie Mellon University", "type": "education", "group": "education" },
-        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" }
+        { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
+        { "id": "Projects", "type": "skill", "group": "project" },
+        { "id": "Distributed Consensus Framework (RPC + RAFT)", "type": "project", "group": "project" },
+        { "id": "Honeynet as a Service", "type": "project", "group": "project" }
       ],
       "links": [
         { "source": "Education", "target": "Carnegie Mellon University" },
-        { "source": "Education", "target": "Dwarkadas J. Sanghvi College of Engineering" }
+        { "source": "Education", "target": "Dwarkadas J. Sanghvi College of Engineering" },
+        { "source": "Projects", "target": "Distributed Consensus Framework (RPC + RAFT)" },
+        { "source": "Projects", "target": "Honeynet as a Service" }
       ]
     },
     "projectArchitectures": {
-      "Resilient Self-Auth for BC IoT": { "name": "Resilient Self-Auth for BC IoT", "children": [] },
-      "Honeynet as a Service": { "name": "Honeynet as a Service", "children": [] },
+      "Distributed Consensus Framework (RPC + RAFT)": { "svg": "architectures/distributed-consensus.svg" },
+      "Honeynet as a Service": { "svg": "architectures/honeynet.svg" },
       "Stegnoflage": { "name": "Stegnoflage", "children": [] },
       "INDIE DFIR": { "name": "INDIE DFIR", "children": [] }
     },
@@ -294,8 +299,22 @@
       document.getElementById('lld-title').textContent = `Architecture: ${projectName}`;
       lldSvg.selectAll('*').remove();
 
-      const w = innerWidth, h = innerHeight; lldSvg.attr('width', w).attr('height', h)
-        .attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
+      const w = innerWidth, h = innerHeight; lldSvg.attr('width', w).attr('height', h);
+
+      if (arch.svg) {
+        fetch(arch.svg).then(r => r.text()).then(txt => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(txt, 'image/svg+xml');
+          const svgEl = doc.documentElement;
+          lldSvg.html(svgEl.innerHTML);
+          Array.from(svgEl.attributes).forEach(attr => lldSvg.attr(attr.name, attr.value));
+          overlay.classList.remove('hidden');
+          requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+        });
+        return;
+      }
+
+      lldSvg.attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
       const root = d3.hierarchy(arch);
       const tree = d3.tree().nodeSize([28, 180]);
