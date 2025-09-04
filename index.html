@@ -102,7 +102,10 @@
         { "id": "Dwarkadas J. Sanghvi College of Engineering", "type": "education", "group": "education" },
         { "id": "Projects", "type": "skill", "group": "project" },
         { "id": "Distributed Consensus Framework (RPC + RAFT)", "type": "project", "group": "project" },
+
+
         { "id": "Software-Defined Security Operations Platform(SD-SOC)", "type": "project", "group": "project" }
+
       ],
       "links": [
         { "source": "Education", "target": "Carnegie Mellon University" },
@@ -286,7 +289,7 @@
     addEventListener('hashchange', readRoute);
 
     // LLD rendering
-    const lldSvg = d3.select('#lld-svg');
+    let lldSvg = d3.select('#lld-svg');
     const overlay = document.getElementById('lld-overlay');
     const overlayStack = [];
 
@@ -299,22 +302,31 @@
       document.getElementById('lld-title').textContent = `Architecture: ${projectName}`;
       lldSvg.selectAll('*').remove();
 
-      const w = innerWidth, h = innerHeight; lldSvg.attr('width', w).attr('height', h);
+
+      const w = innerWidth, h = innerHeight;
 
       if (arch.svg) {
-        fetch(arch.svg).then(r => r.text()).then(txt => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(txt, 'image/svg+xml');
-          const svgEl = doc.documentElement;
-          lldSvg.html(svgEl.innerHTML);
-          Array.from(svgEl.attributes).forEach(attr => lldSvg.attr(attr.name, attr.value));
-          overlay.classList.remove('hidden');
-          requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
-        });
+        const svgPath = arch.svg.startsWith('/') ? arch.svg : `/${arch.svg}`;
+        fetch(svgPath)
+          .then(r => r.text())
+          .then(txt => {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = txt.trim();
+            const svgEl = wrapper.querySelector('svg');
+            svgEl.setAttribute('id', 'lld-svg');
+            svgEl.setAttribute('width', w);
+            svgEl.setAttribute('height', h);
+            lldSvg.node().replaceWith(svgEl);
+            lldSvg = d3.select('#lld-svg');
+            overlay.classList.remove('hidden');
+            requestAnimationFrame(() => overlay.classList.remove('opacity-0'));
+          })
+          .catch(err => console.error('Failed to load SVG', err));
         return;
       }
 
-      lldSvg.attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
+      lldSvg.attr('width', w).attr('height', h)
+        .attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
       const root = d3.hierarchy(arch);
       const tree = d3.tree().nodeSize([28, 180]);
